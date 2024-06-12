@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1717949917 source:c:\users\zamek\desktop\szko³a\codebloks\pierwszy\napisy\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<wchar.h>
+
