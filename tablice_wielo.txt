@@ -1,0 +1,127 @@
+#include <stdio.h>
+#include <stdlib.h>
+int **alokuj(unsigned int n,unsigned int m)
+{
+    int **tab=malloc(n*sizeof(int*));
+    int i;
+    for(i=0;i<n;i++)
+    {
+        tab[i]=malloc(m*sizeof(int));
+    }
+    return tab;
+}
+int (*alokuj2(unsigned int n, unsigned int m))[]
+{
+    return malloc(n*sizeof(int[m]));
+}
+void zwolnij(unsigned int n, unsigned int m, int **tab)
+{
+    int i;
+    for(i=0;i<n;i++)
+        free(tab[i]);
+    free(tab);
+}
+void zwolnij2(unsigned int n, int tab[][n])
+{
+    free(tab);
+}
+void zeruj(int tab[][100],unsigned int n)
+{
+    int i,j;
+    for(i=0;i<n;i++)
+        for(j=0;j<100;j++)
+        {
+        tab[i][j]=0;
+        printf("%d",tab[i][j]);
+        }
+}
+void zeruj2(unsigned int n,unsigned int m,int tab[][m])
+{
+    int i,j;
+    for(i=0;i<=n;i++)
+        for(j=0;j<=m;j++)
+        {
+            tab[i][j]=0;
+            printf("%d",tab[i][j]);
+        }
+}
+int suma_wartosci_ele(unsigned int n,int tab[][100])
+{
+    int suma =0;
+    int i,j;
+    for(i=0;i<n;i++)
+        for(j=0;j<100;j++)
+        suma +=tab[i][j];
+    return suma;
+}
+long long suma_wartosci_ele_troj(int tab[100][100][100])
+{
+    long long suma=0;
+    int i,j,k;
+    for(i=0;i<100;i++)
+    {
+        for(j=0;j<100;j++)
+        {
+            for(k=0;k<100;k++)
+            {
+                suma += tab[i][j][k];
+            }
+        }
+    }
+    return suma;
+}
+int max_sred(unsigned int n,unsigned int m, int **tab)
+{
+    int i,j,sum,max;
+    double wart;
+    for(i=0;i<n;i++)
+    {
+        sum=0;
+        for(j=0;j<m;j++)
+        {
+            sum+=tab[i][j];
+            if(((double)sum/m>wart)||(i==0))
+            {
+                max=i;
+                wart=(double)sum/m;
+            }
+        }
+    }
+    return max;
+}
+int przepisz(unsigned int n,unsigned int m, int **tab1,int **tab2)
+{
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            int temp = tab1[i][j];
+            tab1[i][j]=tab2[i][j];
+            tab2[i][j]=temp;
+        }
+    }
+}
+struct trojkat
+{
+    float a;
+    float b;
+    float c;
+};
+float obowd(struct trojkat ob)
+{
+    return ob.a+ob.b+ob.c;
+}
+void kopiuj_trojkat(struct trojkat troj1,struct trojkat *troj2)
+{
+    troj2->a=troj1.a;
+    troj2->b=troj1.b;
+    troj2->c=troj1.c;
+}
+int main()
+{
+    int roz1=5;
+    int roz2=5;
+    alokuj(roz1,roz2);
+    return 0;
+}

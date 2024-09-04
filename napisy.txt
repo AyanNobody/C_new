@@ -1,0 +1,96 @@
+#include <stdio.h>
+#include <stdlib.h>
+int wyczysc(char *nap)
+{
+    nap[0]=0;
+}
+int dlugosc(char *nap)
+{
+    int i=0;
+    while(nap[i]!='\0')
+        i++;
+    return i;
+}
+int porownaj(char *nap1,char*nap2)
+{
+    int i;
+    for(i=0;(nap1[i]!='\0')&&(nap2[i]!='\0');i++)
+    {
+        if(nap1[i]!=nap2[i])
+            return 0;
+        else
+            return 1;
+    }
+}
+void przepisz(char*nap1,char*nap2)
+{
+    int i;
+    for(i=0;nap1[i]!='\0';i++)
+    {
+        nap2[i]=nap1[i];
+    }
+    nap2[i]='\0';
+}
+void kopiujn(char*nap,char*nap2,int n)
+{
+    int i;
+    int dlu=dlugosc(nap);
+    for(i=0;i<=n;i++)
+    {
+        if(dlu<=n)
+        {
+            nap2[i]=nap[i];
+        }
+        else
+        {
+            nap2[i]=nap[i];
+        }
+    }
+    nap2[i]='\0';
+}
+void sklej(char*nap1,char*nap2,char*nap3)
+{
+    int i,j;
+    for(i=0;nap1[i]!=0;i++)
+        nap3[i]=nap1[i];
+    for(j=0;nap2[j]!=0;i++,j++)
+        nap3[i]=nap2[j];
+    nap3[i]='\0';
+}
+void zamien_male_na_duze(char* napis) {
+    for (int i = 0; napis[i] != '\0'; i++) {
+        if (napis[i] >= 'a' && napis[i] <= 'z') {
+            napis[i] = napis[i] - 'a' + 'A';
+        }
+    }
+}
+
+void wytnij(char *nap,int n,int m)
+{
+    int i,j;
+    for(i=n,j=m+1;nap[j]!='\0';i++,j++)
+    {
+        nap[i]=nap[j];
+    }
+    nap[i]='\0';
+}
+int main()
+{
+    /*
+    int n=5;
+    char *nap="Ala ma kota";
+    char *nap2=malloc((n+1));
+    kopiujn(nap,nap2,n);
+    printf("%s",nap2);
+    free(nap2);*/
+    char napis[] = "hello world";
+    printf("Before: %s\n", napis);
+    zamien_male_na_duze(napis);
+    printf("After: %s\n", napis);
+    int n=4;
+    int m=8;
+    char nap[]="Ala ma kota nazywa sie Zenek";
+    wytnij(nap,n,m);
+    printf("%s",nap);
+    return 0;
+}

@@ -1,0 +1,300 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <float.h>
+#include <string.h>
+#define max_imie 50
+#define max_nazwisko 50
+#define max_adres 100
+#define max_kierunek 50
+struct trojkat
+{
+    float a;
+    float b;
+    float c;
+};
+int przepisz_struct(struct trojkat troj1,struct trojkat *troj2)
+{
+    troj2->a=troj1.a;
+    troj2->b=troj1.b;
+    troj2->c=troj1.c;
+}
+struct punkt
+{
+    float x;
+    float y;
+    float z;
+};
+float najmniejsza_odleglosc(struct punkt tab[], int rozmiar)
+{
+    float min_odleglosc = FLT_MAX;
+    for(int i=0;i<rozmiar;i++)
+    {
+        for(int j=i+1;j<rozmiar;j++)
+        {
+            float dx = tab[i].x-tab[j].x;
+            float dy = tab[i].y-tab[j].y;
+            float dz = tab[i].z-tab[j].z;
+            float odleglosc = sqrtf(dx*dx+dy*dy+dz*dz);
+            if(odleglosc<min_odleglosc)
+            {
+                min_odleglosc = odleglosc;
+            }
+        }
+    }
+    return min_odleglosc;
+}
+void przepisz_struct_tablice(struct punkt tab1[],struct punkt tab2[],int rozmiar)
+{
+    int i,j;
+    for(i=0;i<rozmiar;i++)
+    {
+        tab2[i]=tab1[i];
+    }
+}
+typedef struct
+{
+    int wymiar;
+    float *wspolrzedne;
+} punktn;
+void przepisz_struct_tablice2(punktn tab1[], punktn* tab2, int rozmiar) {
+    int i;
+    for (i = 0; i < rozmiar; i++) {
+        tab2[i].wymiar = tab1[i].wymiar;
+        tab2[i].wspolrzedne = malloc(tab1[i].wymiar * sizeof(float));
+        for (int j = 0; j < tab1[i].wymiar; j++) {
+            tab2[i].wspolrzedne[j] = tab1[i].wspolrzedne[j];
+        }
+    }
+}
+typedef struct
+{
+    double im;
+    double re;
+} zespolone;
+zespolone dodaj(zespolone a,zespolone b)
+{
+    zespolone suma;
+    suma.re=a.re+b.re;
+    suma.im=a.im+b.im;
+    return suma;
+}
+typedef struct
+{
+    char imie[max_imie];
+    char nazwisko[max_nazwisko];
+    char adres[max_adres];
+    char pesel[12];
+    char kierunek[max_kierunek];
+    int numer_legitymacji;
+} student;
+void wczytaj_student(student *s)
+{
+    printf("Podaj imie: ");
+    fgets(s->imie,max_imie,stdin);
+    s->imie[strcspn(s->imie,"\n")]=0;
+    printf("Podaj nazwisko: ");
+    fgets(s->nazwisko,max_nazwisko,stdin);
+    s->nazwisko[strcspn(s->nazwisko,"\n")]=0;
+    printf("Podaj adres: ");
+    fgets(s->adres,max_adres,stdin);
+    s->adres[strcspn(s->adres,"\n")]=0;
+    printf("Podaj PESEL: ");
+    fgets(s->pesel,12,stdin);
+    s->pesel[strcspn(s->pesel,"\n")]=0;
+    printf("Podaj kierunek: ");
+    fgets(s->kierunek,max_kierunek,stdin);
+    s->kierunek[strcspn(s->kierunek,"\n")]=0;
+    printf("Podaj numer legitymacji: ");
+    scanf("%d",&s->numer_legitymacji);
+    getchar();
+}
+#include <stdio.h>
+
+// Definicja unionu Liczba
+union Liczba {
+    int calkowita;
+    struct {
+        int licznik;
+        int mianownik;
+    } wymierna;
+};
+
+// Definicja struktury Dane
+struct Dane {
+    int tp;
+    union Liczba zaw;
+};
+
+// Funkcja, która wczytuje dane ze standardowego wejœcia
+struct Dane wczytaj_dane() {
+    struct Dane dane;
+
+    printf("Czy chcesz wczytaæ liczbê ca³kowit¹ (0) czy wymiern¹ (1)? ");
+    scanf("%d", &dane.tp);
+
+    if (dane.tp == 0) {
+        printf("Podaj liczbê ca³kowit¹: ");
+        scanf("%d", &dane.zaw.calkowita);
+    } else if (dane.tp == 1) {
+        printf("Podaj licznik: ");
+        scanf("%d", &dane.zaw.wymierna.licznik);
+        printf("Podaj mianownik: ");
+        scanf("%d", &dane.zaw.wymierna.mianownik);
+    } else {
+        printf("B³êdny wybór!\n");
+        // Mo¿na tutaj dodaæ obs³ugê b³êdu
+    }
+
+    return dane;
+}
+// Definicja unionu Liczba
+union Liczba {
+    int calkowita;
+    struct {
+        int licznik;
+        int mianownik;
+    } wymierna;
+};
+
+// Definicja struktury zespolone
+struct zespolone {
+    int tp;
+    union Liczba re;
+    union Liczba im;
+};
+
+// Funkcja dodaj, która dodaje dwie liczby zespolone
+struct zespolone dodaj(struct zespolone a, struct zespolone b) {
+    struct zespolone wynik;
+
+    // Sprawdzamy, czy obie liczby zespolone maj¹ ten sam typ
+    if (a.tp != b.tp) {
+        printf("B³¹d: ró¿ne typy liczb zespolonych!\n");
+        // Mo¿na tutaj dodaæ obs³ugê b³êdu
+    }
+
+    // Dodajemy czêœci rzeczywiste
+    if (a.tp == 0) { // liczby ca³kowite
+        wynik.re.calkowita = a.re.calkowita + b.re.calkowita;
+    } else { // liczby wymierne
+        int licznik_a = a.re.wymierna.licznik;
+        int mianownik_a = a.re.wymierna.mianownik;
+        int licznik_b = b.re.wymierna.licznik;
+        int mianownik_b = b.re.wymierna.mianownik;
+
+        int licznik_wynik = licznik_a * mianownik_b + licznik_b * mianownik_a;
+        int mianownik_wynik = mianownik_a * mianownik_b;
+
+        wynik.re.wymierna.licznik = licznik_wynik;
+        wynik.re.wymierna.mianownik = mianownik_wynik;
+    }
+
+    // Dodajemy czêœci urojone
+    if (a.tp == 0) { // liczby ca³kowite
+        wynik.im.calkowita = a.im.calkowita + b.im.calkowita;
+    } else { // liczby wymierne
+        int licznik_a = a.im.wymierna.licznik;
+        int mianownik_a = a.im.wymierna.mianownik;
+        int licznik_b = b.im.wymierna.licznik;
+        int mianownik_b = b.im.wymierna.mianownik;
+
+        int licznik_wynik = licznik_a * mianownik_b + licznik_b * mianownik_a;
+        int mianownik_wynik = mianownik_a * mianownik_b;
+
+        wynik.im.wymierna.licznik = licznik_wynik;
+        wynik.im.wymierna.mianownik = mianownik_wynik;
+    }
+
+    wynik.tp = a.tp; // typ wyniku jest taki sam jak typ sk³adników
+
+    return wynik;
+}
+int main()
+{
+    /*
+    struct punkt tab[] = {
+        {1.0f, 2.0f, 3.0f},
+        {4.0f, 5.0f, 6.0f},
+        {7.0f, 8.0f, 9.0f},
+        {1.1f, 2.1f, 3.1f}
+    };
+
+    int rozmiar = sizeof(tab) / sizeof(tab[0]);
+
+    float min_odleglosc = najmniejsza_odleglosc(tab, rozmiar);
+    printf("Najmniejsza odleglosc: %f\n", min_odleglosc);
+
+    struct punkt tab2[3];
+    przepisz_struct_tablice(tab,tab2,3);
+    for(int i=0;i<3;i++)
+    {
+        printf("tab[%d]=(%f,%f,%f)\n",i,tab2[i].x,tab2[i].y,tab2[i].z);
+    }*//*
+    int rozmiar = 3; // size of the arrays
+    punktn tab1[rozmiar]; // source array
+    punktn* tab2 = malloc(rozmiar * sizeof(punktn)); // destination array
+
+    // Initialize tab1 with some sample data
+    for (int i = 0; i < rozmiar; i++) {
+        tab1[i].wymiar = i + 1; // dimension
+        tab1[i].wspolrzedne = malloc(tab1[i].wymiar * sizeof(float)); // coordinates
+        for (int j = 0; j < tab1[i].wymiar; j++) {
+            tab1[i].wspolrzedne[j] = (float)j; // some sample values
+        }
+    }
+    // Call the przepisz_struct_tablice function
+    przepisz_struct_tablice(tab1, tab2, rozmiar);
+    // Print the contents of tab2 to verify the copy
+    for (int i = 0; i < rozmiar; i++) {
+        printf("tab2[%d].wymiar = %d\n", i, tab2[i].wymiar);
+        for (int j = 0; j < tab2[i].wymiar; j++) {
+            printf("tab2[%d].wspolrzedne[%d] = %f\n", i, j, tab2[i].wspolrzedne[j]);
+        }
+    }
+    // Free the dynamically allocated memory
+    for (int i = 0; i < rozmiar; i++) {
+        free(tab1[i].wspolrzedne);
+        free(tab2[i].wspolrzedne);
+    }
+    free(tab2);*/
+    /*
+    zespolone a,b,suma;
+    a.re=1.0;
+    a.im=2.0;
+    b.re=3.0;
+    b.im=4.0;
+    suma=dodaj(a,b);
+    printf("Suma: (%f,%f)\n",suma.re,suma.im);*/
+    /*
+    student s;
+    wczytaj_student(&s);
+    printf("Imie: %s\n",s.imie);
+    printf("Nazwisko: %s\n",s.nazwisko);
+    printf("Adres: %s\n",s.adres);
+    printf("PESEL: %s\n",s.pesel);
+    printf("Kierunek: %s\n",s.kierunek);
+    printf("Numer legitymacji: %d\n",s.numer_legitymacji);*/
+    /*
+    struct Dane dane = wczytaj_dane();
+
+    if (dane.tp == 0) {
+        printf("Wczytana liczba ca³kowita: %d\n", dane.zaw.calkowita);
+    } else if (dane.tp == 1) {
+        printf("Wczytana liczba wymierna: %d/%d\n", dane.zaw.wymierna.licznik, dane.zaw.wymierna.mianownik);
+    }*//*
+    struct zespolone a, b, wynik;
+
+    // Wczytujemy dane do struktur a i b
+    // ...
+
+    wynik = dodaj(a, b);
+
+    // Wyœwietlamy wynik
+    if (wynik.tp == 0) {
+        printf("Wynik: %d + %di\n", wynik.re.calkowita, wynik.im.calkowita);
+    } else {
+        printf("Wynik: %d/%d + %d/%di\n", wynik.re.wymierna.licznik, wynik.re.wymierna.mianownik, wynik.im.wymierna.licznik, wynik.im.wymierna.mianownik);
+    }*/
+    return 0;
+}
